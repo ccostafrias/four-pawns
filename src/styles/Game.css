@@ -1,0 +1,143 @@
+
+.main-game {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    max-width: 450px;
+    width: 90vw;
+}
+
+.board, .captured {
+    position: relative;
+    background-image: url('/assets/bg_1.png');
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    border-radius: 5px;
+}
+
+.board {
+    aspect-ratio: 4/6;
+    flex-grow: 4;
+
+    background-size: calc(200%/4);
+}
+
+.captured {
+    aspect-ratio: 1/4;
+    flex-grow: 1;
+
+    background-size: calc(200%);
+}
+
+.piece, .highlight, .hint, .capture-hint, .hover {
+    /* image-rendering: auto; */
+    aspect-ratio: 1/1;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    cursor: grab;
+    cursor: -webkit-grab;
+    touch-action: none;
+    will-change: transform;
+    /* transition: transform .2s ease; */
+}
+
+.captured-piece {
+    width: 100%;
+}
+
+.hint {
+    background-color: var(--trans-black);
+    padding: 8%;
+}
+
+.capture-hint {
+    border: 5px solid var(--trans-black);
+}
+
+.capture-hint, .hint {
+    background-clip: content-box;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.piece {
+    z-index: 100;
+}
+
+.blocked {
+    background-color: var(--bg3);
+}
+
+.text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100%/6);
+    padding: 1em;
+    text-align: center;
+
+    position: absolute;
+    z-index: 200;
+}
+
+.text.description {
+    font-weight: bold;
+    width: 100%;
+    transform: translateY(100%);
+}
+
+.text.name {
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 75%;
+    transform: translateY(500%);
+}
+
+.highlight {
+    background-color: orange;
+    opacity: .5;
+    z-index: 10;
+}
+
+.hover {
+    box-shadow: inset 0 0 0 5px white;
+    z-index: 20;
+}
+
+.dragging {
+    cursor: grabbing;
+    z-index: 300;
+}
+
+/* HEADER */
+
+.game-header {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: 5px solid var(--text);
+    padding: .5em;
+    margin: 0 auto 1em;
+}
+
+.reset-bttn {
+    font-size: 1.5em;
+    /* background-color: var(--bg2); */
+}
+
+.theme-selector {
+
+}

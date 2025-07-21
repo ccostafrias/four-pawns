@@ -1,0 +1,92 @@
+@import './variables.css';
+
+/* Gera posições do tabuleiro de xadrez usando translate */
+.square-11 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 0); }
+.square-12 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 1); }
+.square-13 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 2); }
+.square-14 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 3); }
+.square-15 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 4); }
+.square-16 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 5); }
+.square-17 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 6); }
+.square-18 { top: calc(100% / var(--rows) * 0); left: calc(100% / var(--cols) * 7); }
+
+.square-21 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 0); }
+.square-22 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 1); }
+.square-23 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 2); }
+.square-24 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 3); }
+.square-25 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 4); }
+.square-26 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 5); }
+.square-27 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 6); }
+.square-28 { top: calc(100% / var(--rows) * 1); left: calc(100% / var(--cols) * 7); }
+
+.square-31 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 0); }
+.square-32 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 1); }
+.square-33 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 2); }
+.square-34 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 3); }
+.square-35 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 4); }
+.square-36 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 5); }
+.square-37 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 6); }
+.square-38 { top: calc(100% / var(--rows) * 2); left: calc(100% / var(--cols) * 7); }
+
+.square-41 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 0); }
+.square-42 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 1); }
+.square-43 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 2); }
+.square-44 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 3); }
+.square-45 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 4); }
+.square-46 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 5); }
+.square-47 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 6); }
+.square-48 { top: calc(100% / var(--rows) * 3); left: calc(100% / var(--cols) * 7); }
+
+.square-51 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 0); }
+.square-52 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 1); }
+.square-53 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 2); }
+.square-54 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 3); }
+.square-55 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 4); }
+.square-56 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 5); }
+.square-57 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 6); }
+.square-58 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 7); }
+
+.square-61 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 0); }
+.square-62 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 1); }
+.square-63 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 2); }
+.square-64 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 3); }
+.square-65 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 4); }
+.square-66 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 5); }
+.square-67 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 6); }
+.square-68 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 7); }
+
+.square-71 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 0); }
+.square-72 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 1); }
+.square-73 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 2); }
+.square-74 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 3); }
+.square-75 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 4); }
+.square-76 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 5); }
+.square-77 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 6); }
+.square-78 { top: calc(100% / var(--rows) * 6); left: calc(100% / var(--cols) * 7); }
+
+.square-81 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 0); }
+.square-82 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 1); }
+.square-83 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 2); }
+.square-84 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 3); }
+.square-85 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 4); }
+.square-86 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 5); }
+.square-87 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 6); }
+.square-88 { top: calc(100% / var(--rows) * 7); left: calc(100% / var(--cols) * 7); }
+
+.piece.wp { background-image: var(--wp); }
+.piece.bp { background-image: var(--bp); }
+
+.piece.wr { background-image: var(--wr); }
+.piece.br { background-image: var(--br); }
+
+.piece.wn { background-image: var(--wn); }
+.piece.bn { background-image: var(--bn); }
+
+.piece.wb { background-image: var(--wb); }
+.piece.bb { background-image: var(--bb); }
+
+.piece.wq { background-image: var(--wq); }
+.piece.bq { background-image: var(--bq); }
+
+.piece.wk { background-image: var(--wk); }
+.piece.bk { background-image: var(--bk); }

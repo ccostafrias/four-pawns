@@ -1,0 +1,47 @@
+@charset "UTF-8";
+@import './variables.css';
+
+/*Reset & root*/
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+input, button {
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+html {
+    overflow: hidden;
+    --bg: #1e1e1e;
+    --bg2: #3c3d3f;
+    --bg3: #292929;
+    --text: #dde1e9;
+}
+
+body, button, input, textarea, a {
+    color: var(--text);
+    font-family: var(--font-main);
+}
+
+html, body {
+    height: 100dvh;
+    background: var(--bg);
+    font-size: 18px;
+    line-height: 1;
+}
