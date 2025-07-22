@@ -3,11 +3,24 @@ import { parseBoardString } from "../utils/parseBoardString"
 
 export function useGameLogic(initialFen, rows = 6, cols = 4) {
   const [board, setBoard] = useState(() => parseBoardString(initialFen))
+  // const [captured, setCaptured] = useState([
+  //   {type: 'p', color: 'black'}, 
+  //   {type: 'p', color: 'black'}, 
+  //   {type: 'p', color: 'black'}, 
+  //   {type: 'p', color: 'black'}
+  // ])
   const [captured, setCaptured] = useState([])
   const [boardHistory, setBoardHistory] = useState([{ board, captured }])
   const [currentMove, setCurrentMove] = useState(0)
   const [selectedPiece, setSelectedPiece] = useState(null)
   const [validMoves, setValidMoves] = useState([])
+  const [isWon, setIsWon] = useState(false)
+
+  useEffect(() => {
+    if (captured.length == 4 && captured.every(p => p.type === 'P' && p.color === 'black')) {
+      triggerWin()
+    }
+  }, [captured])
 
   useEffect(() => {
     if (selectedPiece) {
@@ -22,6 +35,10 @@ export function useGameLogic(initialFen, rows = 6, cols = 4) {
       setValidMoves([])
     }
   }, [selectedPiece, board])
+
+  function triggerWin() {
+    setIsWon(true)
+  }
 
   function selectPiece(row, col) {
     const piece = board.find(p => p.row === row && p.col === col)
@@ -73,9 +90,14 @@ export function useGameLogic(initialFen, rows = 6, cols = 4) {
   }
 
   function resetGame() {
-    setBoard(parseBoardString(initialFen, rows, cols))
+    const resetedBoard = parseBoardString(initialFen, rows, cols)
+    const resetedCaptured = []
+    setBoard(resetedBoard)
+    setBoardHistory([{board: resetedBoard, captured: resetedCaptured}])
+    setCurrentMove(0)
     setSelectedPiece(null)
-    setCaptured([])
+    setIsWon(false)
+    setCaptured(resetedCaptured)
   }
 
   function undo() {
@@ -103,6 +125,7 @@ export function useGameLogic(initialFen, rows = 6, cols = 4) {
     captured,
     currentMove,
     boardHistory,
+    isWon,
     selectPiece,
     setSelectedPiece,
     movePiece,

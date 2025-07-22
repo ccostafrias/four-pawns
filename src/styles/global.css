@@ -27,7 +27,6 @@ input, button {
 }
 
 html {
-    overflow: hidden;
     --bg: #1e1e1e;
     --bg2: #3c3d3f;
     --bg3: #292929;
@@ -44,4 +43,54 @@ html, body {
     background: var(--bg);
     font-size: 18px;
     line-height: 1;
+}
+
+/* Footer */
+
+.home-footer {
+    position: fixed;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: end;
+    font-size: inherit;
+    gap: .75rem;
+    bottom: 20px;
+    right: 20px;
+    z-index: 400;
+}
+
+.svg-footer {
+    --size: 2.5rem;
+    height: var(--size);
+    width: var(--size);
+    cursor: pointer;
+}
+
+.home-footer > * {
+    opacity: 1;
+    transition: all .2s ease;
+}
+
+.home-footer a:hover, .home-footer button:hover {
+    opacity: 0.8;
+}
+
+.button-footer {
+    display: flex;
+}
+
+@media (max-width: 500px) {
+    .svg-footer {
+        --size: 2rem;
+    }
+
+    html, body {
+        height: auto;
+        font-size: .9rem;
+    }
+
+    body {
+        padding: 2rem 0;
+    }
 }

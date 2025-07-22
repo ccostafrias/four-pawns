@@ -5,7 +5,6 @@ import { motion, useDragControls, useAnimationControls, animationControls } from
 export default function Piece(props) {
     const { 
         piece,
-        setCapturedReady,
         captured,
         boardRef,
         onDragEnd,
@@ -26,7 +25,6 @@ export default function Piece(props) {
     const animationControls = useAnimationControls()
 
     const handleDragEnd = (e) => {
-        setIsDragging(false)
         animationControls.start({
             x:0,
             y:0
@@ -34,17 +32,22 @@ export default function Piece(props) {
         onDragEnd(e)
     }
 
+    const [dragAnimation, setDragAnimation] = useState(false)
+
     return (
         <motion.div
-            onDragStart={() => setIsDragging(true)}
+            onDragStart={() => {
+                setIsDragging(true)
+                setDragAnimation(true)
+            }}
             onDragEnd={(e) => handleDragEnd(e)}
             animate={animationControls}
             dragControls={controls}
-            dragElastic={0.1}
-            whileDrag={{
+            dragElastic={0.05}
+            style={dragAnimation ? {
                 zIndex: 300,
                 cursor: 'grabbing',
-            }}
+            } : {}}
             drag
             // dragConstraints={boardRef}
             dragConstraints={{ 
@@ -58,11 +61,7 @@ export default function Piece(props) {
             layoutId={id}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={`piece square-${row+1}${col+1} ${typeAbbr}`}
-            onLayoutAnimationComplete={() => {
-                if (captured?.some(p => p.row == row && p.col == col)) {
-                    setCapturedReady(true)
-                }
-            }}
+            onAnimationComplete={() => setDragAnimation(false)}
         >
         </motion.div>
     )

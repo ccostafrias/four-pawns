@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Piece from './Piece'
 import { useOnClickOutside } from '../hooks/useOnClickOutside'
 import '../styles/squares.css'
+import { clamp } from '../utils/clamp'
 
 export default function Board(props) {
     const boardRef = useRef(null)
@@ -18,7 +19,6 @@ export default function Board(props) {
         captured,
         movePiece,
         setSelectedPiece,
-        setCapturedReady,
     } = props
 
     const [isDragging, setIsDragging] = useState(false)
@@ -27,7 +27,6 @@ export default function Board(props) {
     const piecesEl = board && board.map(p => (
         <Piece
             key={`${p.id}`}
-            setCapturedReady={setCapturedReady}
             captured={captured}
             piece={p}
             onDragEnd={onDragEnd}
@@ -52,8 +51,8 @@ export default function Board(props) {
     ))
 
     function onDragEnd (e) {
-        console.log()
         setHoverPiece(null)
+        setIsDragging(false)
         handleCellPick(e, boardRef.current)
     }
 
@@ -61,8 +60,7 @@ export default function Board(props) {
         if (!isDragging) return
 
         const { row, col } = getBoardCellFromTarget(e)
-
-        setHoverPiece({row, col})
+        setHoverPiece({row: clamp(row, 0, (6-1)), col: clamp(col, 0, (4-1))}) // 6/4 = ROW/COL SIZE
     }
 
     const handleBoardMouseDown = (e) => {
@@ -90,12 +88,18 @@ export default function Board(props) {
         if (!isDragging) setSelectedPiece(null)
     }
 
+    useEffect(() => {
+        if (!isDragging && hoverPiece) setHoverPiece(null)
+    }, [isDragging, hoverPiece])
+
     return (
         <div
             className='board'
             ref={boardRef}
             onMouseDown={(e) => handleBoardMouseDown(e)} 
             onMouseMove={(e) => handleBoardMouseMove(e)}
+            onTouchStart={(e) => handleBoardMouseDown(e)}
+            onTouchMove={(e) => handleBoardMouseMove(e)}
         >
             <span className='text description'>Use the standard chess moves to capture the black pawns with the white knight</span>
             <span className='text name'>FOUR PAWNS</span>
@@ -111,15 +115,32 @@ export default function Board(props) {
 }
 
 function getBoardCellFromTarget(e, target = null, boardW = 4, boardH = 6) {
-  const rect = !target ? e.currentTarget.getBoundingClientRect() : target.getBoundingClientRect()
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+    const rect = !target ? e.currentTarget.getBoundingClientRect() : target.getBoundingClientRect()
+    
+    // Detecta se é um evento de toque
+    let clientX, clientY;
 
-  const cellWidth = rect.width / boardW;
-  const cellHeight = rect.height / boardH;
+    if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+    } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    }
 
-  const col = Math.floor(x / cellWidth);
-  const row = Math.floor(y / cellHeight);
-
-  return { row, col };
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    console.log(x, y)
+    
+    const cellWidth = rect.width / boardW;
+    const cellHeight = rect.height / boardH;
+    
+    const col = Math.floor(x / cellWidth);
+    const row = Math.floor(y / cellHeight);
+    // console.log(row, col)
+    
+    return { row, col };
 };

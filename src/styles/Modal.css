@@ -1,0 +1,293 @@
+.ReactModalPortal {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  pointer-events: none;
+}
+
+/* Overlay padrão */
+.ReactModal__Overlay {
+  --delay: 600ms;
+  opacity: 0;
+  /* font-size: 1.5em; */
+  transition: opacity 200ms ease-in-out;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 500;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+}
+
+.ReactModal__Overlay:has(> .delay), .ReactModal__Content:has(.delay) {
+  transition-delay: var(--delay);
+}
+
+/* Quando o modal é aberto */
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+/* Quando o modal está fechando */
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transition-delay: 0ms; /* sem delay ao fechar */
+}
+
+/* Conteúdo do modal */
+.ReactModal__Content {
+    background: transparent;
+    border: none;
+    outline: none;
+    max-width: 450px;
+    width: 90%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+    transform: translateY(-100px);
+    opacity: 0;
+    transition: transform 400ms ease-in-out, opacity 400ms ease-in-out;
+}
+
+/* Animação ao abrir */
+.ReactModal__Content--after-open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Animação ao fechar */
+.ReactModal__Content--before-close {
+  transform: translateY(-20px);
+  opacity: 0;
+  transition-delay: 0ms;
+}
+
+/* Estilo das partes do modal */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1em;
+  max-height: 80vh;
+  background-color: var(--bg2);
+  border-radius: 5px 5px 0 0;
+  padding: 1em;
+  width: 100%;
+  overflow-y: auto;
+  
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #555 var(--bg3); /* Firefox (thumb track) */
+}
+
+/* .no-bg {
+  background: none;
+} */
+
+/* BOARD */
+
+.board-prev {
+  aspect-ratio: 16/5;
+  width: 100%;
+  position: relative;
+  background-image: var(--board);
+  background-size: calc(100%/4);
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.board-prev > .piece {
+  cursor: auto;
+}
+
+.modal-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.modal-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-item {
+  font-weight: bold;
+}
+
+.theme-selector {
+  flex-basis: 180px;
+}
+
+.modal-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    padding: 1em;
+    width: 100%;
+    gap: 1em;
+    border-radius: 0 0 5px 5px;
+    background-color: var(--bg);
+}
+
+.modal-footer:has(>.alone) {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+}
+
+/* .no-bg ~ .modal-footer {
+  background: none;
+} */
+
+.modal-bttn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  background-color: var(--bg2);
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all .2s ease;
+}
+
+.modal-bttn.save {
+  background-color: #45753c;
+}
+
+.modal-bttn:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.modal-bttn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* WON */
+
+.modal-content > h2 {
+  font-size: 3em;
+}
+
+.modal-content > .won-text {
+  font-size: 1.3em;
+}
+
+/* SELECT */
+
+select {
+  text-transform: capitalize;
+  border: none;
+  width: 100%;
+}
+
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  background: var(--bg3);
+  padding: 10px;
+  transition: 0.4s;
+}
+
+select:hover,
+select:focus {
+  filter: brightness(1.1);
+}
+
+select::picker-icon {
+  color: var(--text);
+  transition: 0.4s rotate;
+}
+
+select:open::picker-icon {
+  rotate: 180deg;
+}
+
+::picker(select) {
+  border: none;
+}
+
+option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+
+  color: var(--text);
+  background: var(--bg3);
+  padding: 10px;
+  transition: 0.4s;
+  
+}
+
+option:not(option:last-of-type) {
+  border-bottom: none;
+}
+
+option:nth-of-type(odd) {
+  background: var(--bg2);
+}
+
+option:hover,
+option:focus {
+  filter: brightness(1.2);
+}
+
+option:checked {
+  font-weight: bold;
+}
+
+option::checkmark {
+  content: '';
+  order: 1;
+  margin-left: auto;
+  /* content: "☑️"; */
+}
+
+::picker(select) {
+  opacity: 0;
+  transition: all 0.4s allow-discrete;
+}
+
+::picker(select):popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  ::picker(select):popover-open {
+    opacity: 0;
+  }
+}
+
+::picker(select) {
+  top: calc(anchor(bottom) + 1px);
+  left: anchor(10%);
+}
+
+@media (max-width: 500px) {
+  .ReactModal__Content {
+    font-size: 1.4em;
+    display: flex;
+    /* width: 100%; */
+    /* height: 100vh; */
+  }
+}

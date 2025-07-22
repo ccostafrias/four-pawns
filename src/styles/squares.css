@@ -46,7 +46,7 @@
 .square-57 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 6); }
 .square-58 { top: calc(100% / var(--rows) * 4); left: calc(100% / var(--cols) * 7); }
 
-.square-61 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 0); }
+.square-61 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 0); border-radius: 0 0 0 4.2px; }
 .square-62 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 1); }
 .square-63 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 2); }
 .square-64 { top: calc(100% / var(--rows) * 5); left: calc(100% / var(--cols) * 3); }

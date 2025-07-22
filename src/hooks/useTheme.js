@@ -5,18 +5,28 @@ export function useTheme() {
     return localStorage.getItem("theme") || 'classic'
   })
 
+  const [board, setBoardState] = useState(() => {
+    return localStorage.getItem("board") || 'nut'
+  })
+
   useEffect(() => {
-    applyTheme(theme)
-  }, [theme])
+    applyThemeToElement(document.body, theme, board)
+  }, [theme, board])
 
   function setTheme(newTheme) {
     localStorage.setItem("theme", newTheme)
     setThemeState(newTheme)
   }
 
-  function applyTheme(themeName) {
-    const root = document.body.style
+  function setBoard(newBoard) {
+    localStorage.setItem("board", newBoard)
+    setBoardState(newBoard)
+  }
+
+  function applyThemeToElement(element, themeName = theme, boardName = board) {
+    const root = element.style
     const prefix = `/assets/pieces/${themeName}/`
+    const boardURL = `/assets/board/${boardName}.png`
 
     const pieces = [
       "bb", "bk", "bn", "bp", "bq", "br",
@@ -24,9 +34,26 @@ export function useTheme() {
     ]
 
     for (const piece of pieces) {
-      root.setProperty(`--${piece}`, `url('${prefix}${piece}.png')`)
+      root.setProperty(
+        `--${piece}`,
+        `url('${import.meta.env.BASE_URL}${prefix}${piece}.png')`
+      )
     }
+
+    root.setProperty('--board', `url('${import.meta.env.BASE_URL}${boardURL}')`)
   }
 
-  return { theme, setTheme }
+  // Para aplicar prévia em modal (passando o ref atual do modal)
+  function applyPreviewTheme({modalRef, themeName, boardName}) {
+    if (!modalRef?.current) return
+    applyThemeToElement(modalRef.current, themeName, boardName)
+  }
+
+  return {
+    theme,
+    board,
+    setTheme,
+    setBoard,
+    applyPreviewTheme,
+  }
 }

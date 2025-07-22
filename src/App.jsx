@@ -1,9 +1,17 @@
-import React, { useState } from 'react'
-import Board from './components/Board'
-import ThemeSelector from './components/ThemeSelector'
+import React, { useState, useRef, useEffect } from 'react'
 import { useGameLogic } from './hooks/useGameLogic'
+import { useTheme } from './hooks/useTheme'
 import { getPieceAbbr } from './utils/getPieceAbbr'
 import { motion, LayoutGroup } from 'framer-motion'
+import { FaRedo, FaChevronLeft, FaChevronRight, FaGithub } from 'react-icons/fa'
+import { FaGear } from 'react-icons/fa6'
+import Board from './components/Board'
+import ThemeSelector from './components/ThemeSelector'
+import CustomModal from './components/CustomModal'
+import { parseBoardString } from './utils/parseBoardString'
+import { themeList, boardList } from "./data/themes"
+import ConfettiExplosion from 'react-confetti-explosion';
+
 import './styles/Game.css'
 
 export default function App() {
@@ -17,6 +25,7 @@ export default function App() {
       captured,
       currentMove,
       boardHistory,
+      isWon,
       selectPiece,
       movePiece,
       resetGame,
@@ -25,31 +34,162 @@ export default function App() {
       redo,
   } = useGameLogic(fen)
 
-  const [capturedReady, setCapturedReady] = useState(false);
+  const {
+    theme, 
+    board: boardBg, 
+    setTheme, 
+    setBoard: setBoardBg, 
+    applyPreviewTheme
+  } = useTheme()
+  const [selectedTheme, setSelectedTheme] = useState(theme)
+  const [selectedBoardBg, setSelectedBoardBg] = useState(boardBg)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [winOpen, setWinOpen] = useState(false)
+  // const [showConfetti, setShowConfetti] = useState(false)
+  
+  useEffect(() => {
+    if (isWon) setWinOpen(true)
+  }, [isWon])
 
-  // const capturedsEl = [{type: 'P', color: 'Black', row: 5, col: 2}].map((p, i) => (
+  const modalRef = useRef(null)
+
   const capturedsEl = captured.map((p, i) => (
       <motion.div
-        key={`captured-${p.id}`}
+        key={`captured-${p.id || i}`}
         style={{
           '--rows': 4,
         }}
         layoutId={p.id}
         transition={{ type: "spring", stiffness: 500, damping: 30, delay: .1 }}
-        className={`${p.id} captured-piece piece square-${i+1}1 ${getPieceAbbr(p)}`}
+        className={`captured-piece piece ${getPieceAbbr(p)}`}
       >
       </motion.div>
   ))
 
   return (
     <>
-      <header className='game-header'>
-        <div className='reset-bttn'>
-          <button onClick={() => resetGame()}>Reset</button>
-          <button onClick={() => undo()} disabled={currentMove === 0}>Undo</button>
-          <button onClick={() => redo()} disabled={currentMove >= boardHistory.length - 1}>Redo</button>
+      <CustomModal
+        isOpen={modalOpen} 
+        hasDelay={false}
+        hasBg={true}
+        onRequestClose={() => setModalOpen(false)}
+        onAfterClose={() => {
+          setSelectedBoardBg(theme)
+          setSelectedBoardBg(boardBg)
+        }}
+        shouldClose={true}
+        contentRef={(el) => {
+          modalRef.current = el
+          // Aplicar o tema atual quando o modal abrir
+          if (el) applyPreviewTheme(modalRef, theme, boardBg)
+        }}
+        footer={(
+          <>
+            <button 
+              className='modal-bttn' 
+              onClick={() => setModalOpen(false)}
+              autoFocus
+            >
+              Cancel
+            </button>
+            <button 
+              className='modal-bttn save' 
+              disabled={theme === selectedTheme && boardBg === selectedBoardBg} 
+              onClick={() => {
+                setTheme(selectedTheme)
+                setBoardBg(selectedBoardBg)
+              }}
+            >
+              Save
+            </button>
+          </>
+        )}
+      >
+        <div className='board-prev' style={{'--rows': 2.5, '--cols': 8}}>
+          {parseBoardString('rnbqkbnr/pppppppp').map((p, i) => {
+            return (
+              <div
+                key={i}
+                style={{width: "12.5%"}}
+                className={`piece square-${p.row+1}${p.col+1} ${getPieceAbbr(p)}`}
+              />
+            )
+          })}
+          </div>
+          <div className='modal-items'>
+            <div className='modal-item'>
+              <span className='text-item'>Pieces</span>
+              <ThemeSelector
+                list={themeList}
+                theme={selectedTheme}
+                onThemeChange={(e) => {
+                    const newTheme = e.target.value
+                    setSelectedTheme(newTheme) // atualiza estado temporário no modal
+                    applyPreviewTheme({modalRef, boardName: selectedBoardBg, themeName: newTheme}) // aplica as variáveis no modal
+                }}
+                previewContainerRef={modalRef}
+              />
+            </div>
+            <div className='modal-item'>
+              <span className='text-item'>Board</span>
+              <ThemeSelector
+                list={boardList}
+                theme={selectedBoardBg}
+                onThemeChange={(e) => {
+                    const newBoardBg = e.target.value
+                    setSelectedBoardBg(newBoardBg) // atualiza estado temporário no modal
+                    applyPreviewTheme({modalRef, boardName: newBoardBg, themeName: selectedTheme}) // aplica as variáveis no modal
+                }}
+                previewContainerRef={modalRef}
+              />
+            </div>
+          </div>
+      </CustomModal>
+      <CustomModal
+        isOpen={winOpen} 
+        hasDelay={true}
+        hasBg={false}
+        onRequestClose={() => setWinOpen(false)}
+        onAfterClose={() => {
+          resetGame()
+        }}
+        shouldClose={false}
+        contentRef={null}
+        footer={(
+          <>
+            <button 
+              className='modal-bttn alone' 
+              onClick={() => setWinOpen(false)}
+            >
+              RESTART
+            </button>
+          </>
+        )}
+      >
+        <h2>You did it!</h2>
+        <span className='won-text'>With <span style={{fontWeight: 'bold'}}>{boardHistory.length}</span> attempts, you cracked the puzzle! Wanna try again?</span>
+      </CustomModal>
+      {isWon && (
+        <div className='center-anchor'>
+          <ConfettiExplosion
+            zIndex={200}
+            onComplete={() => {}}
+          />
         </div>
-        <ThemeSelector/>
+      )}
+      <header className='game-header'>
+        <button className='bttn-header' onClick={() => resetGame()} disabled={boardHistory.length == 1}>
+          <FaRedo className='bttn-icon' />
+        </button>
+        <button className='bttn-header' onClick={() => undo()} disabled={currentMove === 0}>
+          <FaChevronLeft  className='bttn-icon' />
+        </button>
+        <button className='bttn-header' onClick={() => redo()} disabled={currentMove >= boardHistory.length - 1}>
+          <FaChevronRight  className='bttn-icon' />
+        </button>
+        <button className='bttn-header' onClick={() => setModalOpen(true)}>
+          <FaGear className='bttn-icon' />
+        </button>
       </header>
       <main className='main-game'>
         <LayoutGroup mode='wait'>
@@ -64,11 +204,14 @@ export default function App() {
             movePiece={movePiece}
             setSelectedPiece={setSelectedPiece}
             captured={captured}
-            setCapturedReady={setCapturedReady}
           />
         </LayoutGroup>
       </main>
-      <footer></footer>
+      <footer className="home-footer">
+        <a href="https://github.com/ccostafrias" target="_blank">  
+          <FaGithub className="svg-footer"/>
+        </a>
+      </footer>
     </>
   )
 }
