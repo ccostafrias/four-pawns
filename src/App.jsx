@@ -167,7 +167,7 @@ export default function App() {
         )}
       >
         <h2>You did it!</h2>
-        <span className='won-text'>With <span style={{fontWeight: 'bold'}}>{boardHistory.length}</span> attempts, you cracked the puzzle! Wanna try again?</span>
+        <span className='won-text'>With <span style={{fontWeight: 'bold'}}>{boardHistory.length}</span> moves, you cracked the puzzle! Wanna try again?</span>
       </CustomModal>
       {isWon && (
         <div className='center-anchor'>
