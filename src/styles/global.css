@@ -43,6 +43,7 @@ html, body {
     background: var(--bg);
     font-size: 18px;
     line-height: 1;
+    /* overflow: hidden; */
 }
 
 /* Footer */
@@ -81,11 +82,19 @@ html, body {
 }
 
 @media (max-width: 500px) {
+    .home-footer {
+        bottom: auto;
+        right: auto;
+        left: 1em;
+        top: 1em;
+    }
+
     .svg-footer {
         --size: 2rem;
     }
 
     html, body {
+        /* overflow: scroll; */
         height: auto;
         font-size: 1rem;
     }

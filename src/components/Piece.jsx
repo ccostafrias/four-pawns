@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { getPieceAbbr } from '../utils/getPieceAbbr'
 import { motion, useDragControls, useAnimationControls, animationControls } from 'framer-motion'
 
@@ -32,12 +32,13 @@ export default function Piece(props) {
         onDragEnd(e)
     }
 
-    const [dragAnimation, setDragAnimation] = useState(false)
+    const [dragAnimation, setDragAnimation] = useState(false)    
 
     return (
         <motion.div
             onDragStart={() => {
-                setIsDragging(true)
+                if (piece.type == 'X') return
+                setIsDragging(piece)
                 setDragAnimation(true)
             }}
             onDragEnd={(e) => handleDragEnd(e)}
@@ -61,7 +62,10 @@ export default function Piece(props) {
             layoutId={id}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={`piece square-${row+1}${col+1} ${typeAbbr}`}
-            onAnimationComplete={() => setDragAnimation(false)}
+            onAnimationComplete={() => {
+                if (isDragging?.id == piece.id) return
+                setDragAnimation(false) 
+            }}
         >
         </motion.div>
     )

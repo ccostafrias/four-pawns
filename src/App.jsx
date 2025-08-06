@@ -15,8 +15,8 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import './styles/Game.css'
 
 export default function App() {
-  const fen = 'pppp/XXXX/BBBB/RRRR/PPP1/XXXN'
-  // const fen = 'pppp/XXXX/pppp/pppp/p1pp/XXXN'
+  // const fen = 'pppp/XXXX/BBBB/RRRR/PPP1/XXXN'
+  const fen = 'pppp/XXXX/pppp/pppp/p1pp/XXXN'
 
   const {
       board,
@@ -161,13 +161,13 @@ export default function App() {
               className='modal-bttn alone' 
               onClick={() => setWinOpen(false)}
             >
-              RESTART
+              RESET
             </button>
           </>
         )}
       >
         <h2>You did it!</h2>
-        <span className='won-text'>With <span style={{fontWeight: 'bold'}}>{boardHistory.length}</span> moves, you cracked the puzzle! Wanna try again?</span>
+        <span className='won-text'>You cracked the puzzle with just <span style={{fontWeight: 'bold'}}>{boardHistory.length}</span> moves!</span>
       </CustomModal>
       {isWon && (
         <div className='center-anchor'>

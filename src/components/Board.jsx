@@ -60,6 +60,12 @@ export default function Board(props) {
         if (!isDragging) return
 
         const { row, col } = getBoardCellFromTarget(e)
+        const piece = board.find(p => p.row == row && p.col == col)
+
+        if (piece.type == 'X') {
+            setHoverPiece(null)
+            return
+        }
         setHoverPiece({row: clamp(row, 0, (6-1)), col: clamp(col, 0, (4-1))}) // 6/4 = ROW/COL SIZE
     }
 
@@ -133,14 +139,12 @@ function getBoardCellFromTarget(e, target = null, boardW = 4, boardH = 6) {
 
     const x = clientX - rect.left;
     const y = clientY - rect.top;
-    console.log(x, y)
     
     const cellWidth = rect.width / boardW;
     const cellHeight = rect.height / boardH;
     
     const col = Math.floor(x / cellWidth);
     const row = Math.floor(y / cellHeight);
-    // console.log(row, col)
     
     return { row, col };
 };

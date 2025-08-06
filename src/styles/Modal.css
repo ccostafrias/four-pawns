@@ -11,7 +11,7 @@
   opacity: 0;
   /* font-size: 1.5em; */
   transition: opacity 200ms ease-in-out;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.9);
   z-index: 500;
   position: fixed;
   top: 0; left: 0;
@@ -56,6 +56,10 @@
     transition: transform 400ms ease-in-out, opacity 400ms ease-in-out;
 }
 
+.ReactModal__Content:has(.no-bg) {
+  box-shadow: none;
+}
+
 /* Animação ao abrir */
 .ReactModal__Content--after-open {
   transform: translateY(0);
@@ -81,15 +85,15 @@
   border-radius: 5px 5px 0 0;
   padding: 1em;
   width: 100%;
-  overflow-y: auto;
   
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #555 var(--bg3); /* Firefox (thumb track) */
 }
 
-/* .no-bg {
+.modal-content.no-bg {
   background: none;
-} */
+  padding-bottom: 0;
+}
 
 /* BOARD */
 
@@ -144,8 +148,12 @@
     background-color: var(--bg);
 }
 
+.no-bg ~ .modal-footer {
+  background: transparent;
+}
+
 .modal-footer:has(>.alone) {
-  grid-template-columns: repeat(auto-fit, minmax(100px, 250px));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
 }
 
 /* .no-bg ~ .modal-footer {
@@ -172,7 +180,7 @@
 }
 
 .modal-bttn:hover:not(:disabled) {
-  filter: brightness(1.05);
+  filter: brightness(1.1);
 }
 
 .modal-bttn:disabled {
@@ -187,6 +195,7 @@
 }
 
 .modal-content > .won-text {
+  max-width: 250px;
   font-size: 1.3em;
 }
 
