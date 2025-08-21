@@ -15,8 +15,8 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import './styles/Game.css'
 
 export default function App() {
-  // const fen = 'pppp/XXXX/BBBB/RRRR/PPP1/XXXN'
-  const fen = 'pppp/XXXX/pppp/pppp/p1pp/XXXN'
+  const fen = 'pppp/XXXX/BBBB/RRRR/PPP1/XXXN'
+  // const fen = 'pppp/XXXX/pppp/pppp/p1pp/XXXN'
 
   const {
       board,
